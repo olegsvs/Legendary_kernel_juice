@@ -1,15 +1,16 @@
 echo "Cloning dependencies"
-git clone --depth=1 https://github.com/kdrag0n/proton-clang ~/toolchain/clang
+git clone --depth=1 https://github.com/olegsvs/clang_r450784d ~/toolchain/clang_r450784d
 git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 ~/toolchain/gcc
 git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9 ~/toolchain/gcc32
-git clone --depth=1 https://github.com/LegendaryHub/AnyKernel3 ~/toolchain/AnyKernel3
+git clone --depth=1 https://github.com/olegsvs/AnyKernel3 ~/toolchain/AnyKernel3
 echo "Done"
 
 KERNEL_DIR=$(pwd)
 IMAGE="${KERNEL_DIR}/out/arch/arm64/boot/Image"
 TANGGAL=$(date +"%Y%m%d-%H")
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-PATH="${HOME}/toolchain/clang/bin:${HOME}/toolchain/gcc/bin:${HOME}/toolchain/gcc32/bin:${PATH}"
+PATH="${HOME}/toolchain/clang_r450784d/bin:${HOME}/toolchain/gcc/bin:${HOME}/toolchain/gcc32/bin:${PATH}"
+
 export ARCH=arm64
 export KBUILD_BUILD_USER=Sezam4ik
 export KBUILD_BUILD_HOST=Instance
