@@ -40,7 +40,7 @@
 #include <linux/platform_data/spi-mt65xx.h>
 #endif
 
-#define NVT_DEBUG 0
+#define NVT_DEBUG 1
 #define NVT_LOCKDOWN 1
 //---GPIO number---
 #define NVTTOUCH_RST_PIN 980
@@ -60,17 +60,17 @@ void nvt_lockdown_proc_deinit(void);
 //---SPI driver info.---
 #define NVT_SPI_NAME "NVT-ts"
 
-#define NVT_LOG(fmt, args...) ((void)0)
-#define NVT_ERR(fmt, args...) ((void)0)
+#if NVT_DEBUG
+#define NVT_LOG(fmt, args...)    pr_err("[%s] %s %d: " fmt, NVT_SPI_NAME, __func__, __LINE__, ##args)
+#else
+#define NVT_LOG(fmt, args...)    pr_info("[%s] %s %d: " fmt, NVT_SPI_NAME, __func__, __LINE__, ##args)
+#endif
+#define NVT_ERR(fmt, args...)    pr_err("[%s] %s %d: " fmt, NVT_SPI_NAME, __func__, __LINE__, ##args)
 
 //---Input device info.---
 #define NVT_TS_NAME "NVTCapacitiveTouchScreen"
 
-#if defined(CONFIG_NT_VENDOR_TIANMA) && !defined(CONFIG_NT_VENDOR_TRULY)
-#define NVT_VENDOR_INFO                             "[Vendor]Tianma(TP) + Tianma(LCD), [TP-IC]NT36672A, [FW]Ver "
-#else
 #define NVT_VENDOR_INFO                             "[Vendor]Truly(TP) + Truly(LCD), [TP-IC]NT36672A, [FW]Ver "
-#endif
 //---Touch info.---
 #define TOUCH_DEFAULT_MAX_WIDTH 1080
 #define TOUCH_DEFAULT_MAX_HEIGHT 2340
@@ -95,14 +95,8 @@ extern const uint16_t touch_key_array[TOUCH_KEY_NUM];
 extern const uint16_t gesture_key_array[];
 #endif
 #define BOOT_UPDATE_FIRMWARE 1
-
-#if defined(CONFIG_NT_VENDOR_TIANMA) && !defined(CONFIG_NT_VENDOR_TRULY)
-#define BOOT_UPDATE_FIRMWARE_NAME "nt33672a_tianma_novatek_ts_fw.bin"
-#define MP_UPDATE_FIRMWARE_NAME   "nt33672a_tianma_novatek_ts_mp.bin"
-#else
-#define BOOT_UPDATE_FIRMWARE_NAME "nt33672a_truly_novatek_ts_fw.bin"
-#define MP_UPDATE_FIRMWARE_NAME   "nt33672a_truly_novatek_ts_mp.bin"
-#endif
+#define BOOT_UPDATE_FIRMWARE_NAME "novatek_ts_fw.bin"
+#define MP_UPDATE_FIRMWARE_NAME   "novatek_ts_mp.bin"
 #define POINT_DATA_CHECKSUM 1
 #define POINT_DATA_CHECKSUM_LEN 65
 

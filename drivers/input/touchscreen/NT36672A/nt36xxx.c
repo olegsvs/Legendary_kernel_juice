@@ -1802,7 +1802,6 @@ static int32_t nvt_ts_probe(struct spi_device *client)
 			break;
 		}
 	}
-
 #endif
 	//cs_hold_time.
     fill_ctrl_data(client);
@@ -1958,15 +1957,13 @@ static int32_t nvt_ts_probe(struct spi_device *client)
 		input_set_capability(ts->input_dev, EV_KEY, gesture_key_array[retry]);
 	}
 	ts->input_dev->event = nvt_gesture_switch;
-
 #ifdef CONFIG_TOUCHSCREEN_COMMON
-    ret = tp_common_set_double_tap_ops(&double_tap_ops);
-    if (ret < 0) {
-        NVT_ERR("%s: Failed to create double_tap node err=%d\n",
-                __func__, ret);
-    }
+	ret = tp_common_set_double_tap_ops(&double_tap_ops);
+	if (ret < 0) {
+		NVT_ERR("%s: Failed to create double_tap node err=%d\n",
+			__func__, ret);
+	}
 #endif
-
 #endif
 	input_set_capability(ts->input_dev, EV_KEY, 523);
 	sprintf(ts->phys, "input/ts");
@@ -2400,7 +2397,7 @@ static int32_t nvt_ts_suspend(struct device *dev)
 #if WAKEUP_GESTURE
 	//---write command to enter "wakeup gesture mode"---
 	if (nvt_gesture_flag == true) {
-    	    if (nvt_ts_enable_regulator(true) < 0)
+    	    if (nvt_ts_enable_regulator(true) < 0) 
      	  	NVT_LOG("Failed to enable regulator");
 	buf[0] = EVENT_MAP_HOST_CMD;
 	buf[1] = 0x13;
@@ -2413,7 +2410,7 @@ static int32_t nvt_ts_suspend(struct device *dev)
 		buf[0] = EVENT_MAP_HOST_CMD;
 		buf[1] = 0x11;
 		CTP_SPI_WRITE(ts->client, buf, 2);
-	    	if (nvt_ts_enable_regulator(false) < 0)
+	    	if (nvt_ts_enable_regulator(false) < 0) 
 	     	  	NVT_LOG("Failed to enable regulator");
 	}
 
